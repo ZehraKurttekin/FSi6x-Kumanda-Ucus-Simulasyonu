@@ -1,0 +1,30 @@
+running egg_info
+creating ../../build/sancak_simulation/sancak_simulation.egg-info
+writing ../../build/sancak_simulation/sancak_simulation.egg-info/PKG-INFO
+writing dependency_links to ../../build/sancak_simulation/sancak_simulation.egg-info/dependency_links.txt
+writing requirements to ../../build/sancak_simulation/sancak_simulation.egg-info/requires.txt
+writing top-level names to ../../build/sancak_simulation/sancak_simulation.egg-info/top_level.txt
+writing manifest file '../../build/sancak_simulation/sancak_simulation.egg-info/SOURCES.txt'
+reading manifest file '../../build/sancak_simulation/sancak_simulation.egg-info/SOURCES.txt'
+writing manifest file '../../build/sancak_simulation/sancak_simulation.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/tunahan/sancak_ws/build/sancak_simulation/build
+creating /home/tunahan/sancak_ws/build/sancak_simulation/build/lib
+creating /home/tunahan/sancak_ws/build/sancak_simulation/build/lib/sancak_simulation
+copying sancak_simulation/__init__.py -> /home/tunahan/sancak_ws/build/sancak_simulation/build/lib/sancak_simulation
+running install
+running install_lib
+creating /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation
+copying /home/tunahan/sancak_ws/build/sancak_simulation/build/lib/sancak_simulation/__init__.py -> /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation
+byte-compiling /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index
+creating /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index/resource_index
+creating /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index/resource_index/packages
+copying resource/sancak_simulation -> /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index/resource_index/packages
+copying package.xml -> /home/tunahan/sancak_ws/install/sancak_simulation/share/sancak_simulation
+running install_egg_info
+Copying ../../build/sancak_simulation/sancak_simulation.egg-info to /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/tunahan/sancak_ws/build/sancak_simulation/install.log'

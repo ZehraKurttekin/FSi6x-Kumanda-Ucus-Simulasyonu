@@ -1,0 +1,32 @@
+[1.078s] Invoking command in '/home/tunahan/sancak_ws/src/sancak_simulation': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/tunahan/sancak_ws/build/sancak_simulation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sancak_simulation build --build-base /home/tunahan/sancak_ws/build/sancak_simulation/build install --record /home/tunahan/sancak_ws/build/sancak_simulation/install.log --install-scripts $base/lib/sancak_simulation --single-version-externally-managed install_data
+[1.255s] running egg_info
+[1.255s] creating ../../build/sancak_simulation/sancak_simulation.egg-info
+[1.266s] writing ../../build/sancak_simulation/sancak_simulation.egg-info/PKG-INFO
+[1.266s] writing dependency_links to ../../build/sancak_simulation/sancak_simulation.egg-info/dependency_links.txt
+[1.266s] writing requirements to ../../build/sancak_simulation/sancak_simulation.egg-info/requires.txt
+[1.266s] writing top-level names to ../../build/sancak_simulation/sancak_simulation.egg-info/top_level.txt
+[1.266s] writing manifest file '../../build/sancak_simulation/sancak_simulation.egg-info/SOURCES.txt'
+[1.290s] reading manifest file '../../build/sancak_simulation/sancak_simulation.egg-info/SOURCES.txt'
+[1.290s] writing manifest file '../../build/sancak_simulation/sancak_simulation.egg-info/SOURCES.txt'
+[1.291s] running build
+[1.291s] running build_py
+[1.291s] creating /home/tunahan/sancak_ws/build/sancak_simulation/build
+[1.291s] creating /home/tunahan/sancak_ws/build/sancak_simulation/build/lib
+[1.291s] creating /home/tunahan/sancak_ws/build/sancak_simulation/build/lib/sancak_simulation
+[1.292s] copying sancak_simulation/__init__.py -> /home/tunahan/sancak_ws/build/sancak_simulation/build/lib/sancak_simulation
+[1.292s] running install
+[1.296s] running install_lib
+[1.310s] creating /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation
+[1.310s] copying /home/tunahan/sancak_ws/build/sancak_simulation/build/lib/sancak_simulation/__init__.py -> /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation
+[1.311s] byte-compiling /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation/__init__.py to __init__.cpython-312.pyc
+[1.311s] running install_data
+[1.312s] creating /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index
+[1.312s] creating /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index/resource_index
+[1.312s] creating /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index/resource_index/packages
+[1.312s] copying resource/sancak_simulation -> /home/tunahan/sancak_ws/install/sancak_simulation/share/ament_index/resource_index/packages
+[1.312s] copying package.xml -> /home/tunahan/sancak_ws/install/sancak_simulation/share/sancak_simulation
+[1.312s] running install_egg_info
+[1.324s] Copying ../../build/sancak_simulation/sancak_simulation.egg-info to /home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages/sancak_simulation-0.0.0-py3.12.egg-info
+[1.326s] running install_scripts
+[1.412s] writing list of installed files to '/home/tunahan/sancak_ws/build/sancak_simulation/install.log'
+[1.432s] Invoked command in '/home/tunahan/sancak_ws/src/sancak_simulation' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/tunahan/sancak_ws/build/sancak_simulation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/tunahan/sancak_ws/install/sancak_simulation/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sancak_simulation build --build-base /home/tunahan/sancak_ws/build/sancak_simulation/build install --record /home/tunahan/sancak_ws/build/sancak_simulation/install.log --install-scripts $base/lib/sancak_simulation --single-version-externally-managed install_data

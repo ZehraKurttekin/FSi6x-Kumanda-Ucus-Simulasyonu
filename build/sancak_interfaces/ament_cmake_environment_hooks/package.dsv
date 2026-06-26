@@ -1,0 +1,4 @@
+source;share/sancak_interfaces/local_setup.bash
+source;share/sancak_interfaces/local_setup.dsv
+source;share/sancak_interfaces/local_setup.sh
+source;share/sancak_interfaces/local_setup.zsh

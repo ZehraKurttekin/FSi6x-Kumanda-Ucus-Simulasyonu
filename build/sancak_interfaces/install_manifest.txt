@@ -1,0 +1,15 @@
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/ament_index/resource_index/package_run_dependencies/sancak_interfaces
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/ament_index/resource_index/parent_prefix_path/sancak_interfaces
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/environment/ament_prefix_path.sh
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/environment/ament_prefix_path.dsv
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/environment/path.sh
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/environment/path.dsv
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/local_setup.bash
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/local_setup.sh
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/local_setup.zsh
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/local_setup.dsv
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/package.dsv
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/ament_index/resource_index/packages/sancak_interfaces
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/cmake/sancak_interfacesConfig.cmake
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/cmake/sancak_interfacesConfig-version.cmake
+/home/tunahan/sancak_ws/install/sancak_interfaces/share/sancak_interfaces/package.xml
