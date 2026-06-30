@@ -9,21 +9,27 @@ import os
 
 def generate_launch_description():
 
-    simulation_launch = os.path.join(
-        get_package_share_directory('sancak_simulation'),
+    gazebo_launch = os.path.join(
+        get_package_share_directory('ros_gz_sim'),
         'launch',
-        'simulation.launch.py'
+        'gz_sim.launch.py'
     )
+
+    world_file = '/home/tunahan/sancak_ws/worlds/sancak_world.sdf'
 
     return LaunchDescription([
 
         LogInfo(
-            msg='SANCAK Framework Baslatildi'
+            msg='SANCAK Simulation Layer Baslatildi'
         ),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                simulation_launch
-            )
+                gazebo_launch
+            ),
+            launch_arguments={
+                'gz_args': f'{world_file} -r'
+            }.items()
         )
+
     ])

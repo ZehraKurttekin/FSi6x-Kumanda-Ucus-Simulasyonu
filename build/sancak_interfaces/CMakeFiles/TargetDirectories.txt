@@ -1,9 +1,0 @@
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/uninstall.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/sancak_interfaces_uninstall.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/test.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/edit_cache.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/rebuild_cache.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/list_install_components.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/install.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/install/local.dir
-/home/tunahan/sancak_ws/build/sancak_interfaces/CMakeFiles/install/strip.dir
