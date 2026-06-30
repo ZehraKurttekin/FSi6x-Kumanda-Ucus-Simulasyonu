@@ -1,90 +1,161 @@
 # SANCAK - Sürü İHA Görev ve Kontrol Sistemi
 
-## Proje Hakkında
+## Proje Tanımı
 
-SANCAK, ROS2 Jazzy, Gazebo Harmonic ve ArduPilot altyapıları kullanılarak geliştirilen sürü İHA görev yönetim sistemidir.
+SANCAK, ROS2 Jazzy, Gazebo Harmonic ve ArduPilot SITL altyapıları kullanılarak geliştirilen sürü İHA görev ve kontrol sistemidir.
 
-Sistemin amacı;
+Projenin amacı;
 
-* Çoklu İHA simülasyonu
-* Görev tabanlı sürü koordinasyonu
-* QR kod tabanlı görev dağıtımı
-* Formasyon uçuşları
-* Yer Kontrol İstasyonu (GCS)
-* Otonom görev yönetimi
+- Çoklu İHA simülasyonu
+- QR tabanlı görev atama
+- Otonom görev yönetimi
+- Formasyon uçuşları
+- Yer Kontrol İstasyonu (GCS)
+- ROS2 tabanlı modüler mimari
 
-özelliklerini tek bir çatı altında toplamaktır.
-
----
-
-## Kullanılan Teknolojiler
-
-### Simülasyon
-
-* Gazebo Harmonic 8.11
-* ROS2 Jazzy
-* ArduPilot SITL
-
-### Yazılım
-
-* Python
-* ROS2 Nodes
-* MAVROS
-* OpenCV
-* Drone Mission Framework
-
-### Gelecek Arayüz
-
-* Electron
-* React
-* TypeScript
+oluşturmaktır.
 
 ---
 
-## Workspace Yapısı
+# Kullanılan Teknolojiler
 
-```bash
-sancak_ws/
+## Simülasyon
+
+- Gazebo Harmonic 8.11
+- ROS2 Jazzy
+- ArduPilot SITL
+- MAVLink
+
+## Yazılım
+
+- Python
+- ROS2
+- OpenCV
+- Drone Mission Framework
+
+## Planlanan Arayüz
+
+- Electron
+- React
+- TypeScript
+
+---
+
+# Sistem Mimarisi
+
+```text
++----------------------+
+|      GCS UI          |
+| (React / Electron)   |
++----------+-----------+
+           |
+           v
++----------------------+
+|  Mission Layer       |
+|  (QR Görevleri)      |
++----------+-----------+
+           |
+           v
++----------------------+
+|  Control Layer       |
+|  Drone Komutları     |
++----------+-----------+
+           |
+           v
++----------------------+
+|      ROS2            |
++----------+-----------+
+           |
+           v
++----------------------+
+|    ArduPilot SITL    |
++----------+-----------+
+           |
+           v
++----------------------+
+|   Gazebo Harmonic    |
++----------------------+
 ```
 
-### Paketler
+---
 
-#### sancak_simulation
+# Workspace Yapısı
 
-Gazebo dünya ve model yönetimi.
-
-#### sancak_control
-
-Drone kontrol katmanı.
-
-#### sancak_mission
-
-Görev yönetim katmanı.
-
-#### sancak_interfaces
-
-ROS2 mesaj ve servis tanımları.
-
-#### sancak_bringup
-
-Sistem başlatma katmanı.
+```text
+sancak_ws
+│
+├── src
+│   ├── sancak_bringup
+│   ├── sancak_control
+│   ├── sancak_interfaces
+│   ├── sancak_mission
+│   └── sancak_simulation
+│
+├── worlds
+│   ├── sancak_world.sdf
+│   └── test_world.sdf
+│
+├── models
+│   ├── red_pad
+│   ├── blue_pad
+│   ├── qr_plaka_1
+│   ├── qr_plaka_2
+│   ├── qr_plaka_3
+│   ├── qr_plaka_4
+│   ├── qr_plaka_5
+│   └── qr_plaka_6
+│
+└── external
+    ├── ardupilot
+    └── ardupilot_gz
+```
 
 ---
 
-## Kurulum
+# Kurulum
 
-### ROS2 Jazzy
+## 1. Ubuntu
 
-Ubuntu 24.04 üzerine ROS2 Jazzy kurulmalıdır.
+Proje Ubuntu 24.04 üzerinde geliştirilmektedir.
+
+Kontrol:
 
 ```bash
-sudo apt install ros-jazzy-desktop
+lsb_release -a
 ```
 
-### Gazebo Harmonic
+---
+
+## 2. ROS2 Jazzy
+
+ROS2 kurulumu:
 
 ```bash
-sudo apt install ros-jazzy-ros-gz
+sudo apt update
+sudo apt install ros-jazzy-desktop -y
+```
+
+Terminal ortamı:
+
+```bash
+echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+Kontrol:
+
+```bash
+ros2 --version
+```
+
+---
+
+## 3. Gazebo Harmonic
+
+Kurulum:
+
+```bash
+sudo apt install ros-jazzy-ros-gz -y
 ```
 
 Kontrol:
@@ -93,88 +164,341 @@ Kontrol:
 gz sim --versions
 ```
 
-Beklenen çıktı:
+Beklenen:
 
 ```text
 8.11.0
 ```
 
-### ArduPilot
+---
+
+## 4. Workspace Oluşturma
 
 ```bash
-git clone https://github.com/ArduPilot/ardupilot.git
-```
-
-Bağımlılıklar:
-
-```bash
-Tools/environment_install/install-prereqs-ubuntu.sh -y
+mkdir -p ~/sancak_ws/src
+cd ~/sancak_ws
 ```
 
 ---
 
-## Simülasyon Dünyası
+## 5. Workspace Derleme
+
+```bash
+cd ~/sancak_ws
+
+colcon build
+
+source install/setup.bash
+```
+
+---
+
+# Gazebo Testi
+
+Boş dünya açmak için:
+
+```bash
+gz sim empty.sdf
+```
+
+---
+
+# SANCAK World
 
 Mevcut dünya:
 
 ```text
-sancak_world.sdf
+worlds/sancak_world.sdf
 ```
 
 İçerik:
 
-* Ground Plane
-* Red Landing Pad
-* Blue Landing Pad
-* 6 QR Görev Paneli
+- Ground Plane
+- Red Pad
+- Blue Pad
+- 6 QR Görev Alanı
 
 ---
 
-## Tamamlanan Özellikler
+## Dünya Çalıştırma
 
-* ROS2 Workspace oluşturuldu
-* Gazebo Harmonic çalıştırıldı
-* SANCAK World oluşturuldu
-* QR paneller eklendi
-* Görev bölgeleri oluşturuldu
-* ArduPilot entegrasyon çalışmaları başlatıldı
-* ardupilot_gz kurulumu tamamlandı
+```bash
+gz sim ~/sancak_ws/worlds/sancak_world.sdf
+```
 
----
+veya
 
-## Devam Eden Çalışmalar
-
-* ArduPilot ↔ Gazebo bağlantısı
-* Çoklu drone entegrasyonu
-* MAVROS entegrasyonu
-* QR görev sistemi
-* Formasyon algoritmaları
-* Yer Kontrol İstasyonu (GCS)
+```bash
+ros2 launch sancak_simulation simulation.launch.py
+```
 
 ---
 
-## Hedefler
+# ROS2 Paketleri
 
-### Faz 1
+## sancak_simulation
 
-* Gazebo + ArduPilot entegrasyonu
+Gazebo dünya yönetimi.
 
-### Faz 2
+Launch:
 
-* 3 Drone sürü simülasyonu
+```bash
+ros2 launch sancak_simulation simulation.launch.py
+```
 
-### Faz 3
+---
 
-* QR görev sistemi
+## sancak_bringup
 
-### Faz 4
+Sistem başlangıç katmanı.
 
-* Formasyon uçuşları
+Launch:
 
-### Faz 5
+```bash
+ros2 launch sancak_bringup full_system.launch.py
+```
 
-* GCS Arayüzü
+---
 
-### Faz 6
+## sancak_control
 
-* Teknofest görev senaryoları
+Drone kontrol katmanı.
+
+Planlanan görevler:
+
+- Arm
+- Disarm
+- Takeoff
+- RTL
+- Formation
+
+---
+
+## sancak_mission
+
+Görev yönetimi.
+
+Planlanan:
+
+- QR görev çözümleme
+- Görev dağıtımı
+- Formasyon komutları
+
+---
+
+## sancak_interfaces
+
+ROS2 mesaj ve servisleri.
+
+---
+
+# ArduPilot Kurulumu
+
+## Klonlama
+
+```bash
+cd ~/sancak_ws/external
+
+git clone https://github.com/ArduPilot/ardupilot.git
+```
+
+---
+
+## Alt Modüller
+
+```bash
+cd ~/sancak_ws/external/ardupilot
+
+git submodule update --init --recursive
+```
+
+---
+
+## SITL Derleme
+
+```bash
+./waf configure --board sitl
+
+./waf copter
+```
+
+---
+
+# ArduPilot GZ
+
+Kurulum:
+
+```bash
+cd ~/sancak_ws/external
+
+git clone https://github.com/ArduPilot/ardupilot_gz.git
+```
+
+Derleme:
+
+```bash
+cd ~/sancak_ws
+
+colcon build \
+  --packages-select \
+  ardupilot_gz_application \
+  ardupilot_gz_bringup \
+  ardupilot_gz_description \
+  ardupilot_gz_gazebo
+```
+
+---
+
+# Micro XRCE DDS Gen
+
+ArduPilot DDS desteği için kuruldu.
+
+## Kurulum
+
+```bash
+git clone https://github.com/eProsima/Micro-XRCE-DDS-Gen.git
+
+cd Micro-XRCE-DDS-Gen
+
+./gradlew assemble
+```
+
+---
+
+## Java
+
+Java 17 kullanılmıştır.
+
+Kontrol:
+
+```bash
+java -version
+```
+
+Beklenen:
+
+```text
+openjdk 17
+```
+
+---
+
+# Şu Ana Kadar Tamamlananlar
+
+## Altyapı
+
+- [x] Ubuntu 24.04
+- [x] ROS2 Jazzy
+- [x] Gazebo Harmonic
+- [x] Colcon Workspace
+
+## Simülasyon
+
+- [x] SANCAK World
+- [x] QR Alanları
+- [x] Red Pad
+- [x] Blue Pad
+
+## Yazılım Mimarisi
+
+- [x] sancak_bringup
+- [x] sancak_control
+- [x] sancak_interfaces
+- [x] sancak_mission
+- [x] sancak_simulation
+
+## GitHub
+
+- [x] Repository oluşturuldu
+- [x] İlk commit gönderildi
+
+---
+
+# Devam Eden Çalışmalar
+
+## Aşama 1
+
+ArduPilot ↔ Gazebo bağlantısı
+
+Durum:
+
+```text
+LINK1 DOWN
+```
+
+Hedef:
+
+```text
+LINK1 OK
+Heartbeat
+```
+
+---
+
+## Aşama 2
+
+3 Drone SITL
+
+```text
+drone1
+drone2
+drone3
+```
+
+---
+
+## Aşama 3
+
+MAVROS Entegrasyonu
+
+```text
+/drone1/mavros
+/drone2/mavros
+/drone3/mavros
+```
+
+---
+
+## Aşama 4
+
+QR Görev Sistemi
+
+- QR Tespiti
+- JSON Ayrıştırma
+- Görev Üretimi
+
+---
+
+## Aşama 5
+
+Formasyon Kontrolü
+
+- Line
+- Triangle
+- Arrow
+- Diamond
+
+---
+
+## Aşama 6
+
+Yer Kontrol İstasyonu
+
+- Harita
+- Drone Durumu
+- Görev Yönetimi
+- Telemetri
+
+---
+
+# Hedef
+
+Teknofest için;
+
+- Çoklu İHA
+- QR Tabanlı Görev Yönetimi
+- Otonom Formasyon Uçuşu
+- Yer Kontrol İstasyonu
+- Simülasyon ve Gerçek Sistem Entegrasyonu
+
+geliştirilmektedir.
