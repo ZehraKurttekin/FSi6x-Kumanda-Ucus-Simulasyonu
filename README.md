@@ -1,18 +1,18 @@
 # FSi6X Kumanda Uçuş Simülasyonu
 
-Bu repo, Ubuntu 24.04 üzerinde ROS 2 Jazzy ve Gazebo ortamında ArduPilot SITL çalıştırırken, fiziksel FS-i6X kumandayı kullanarak dronu manuel olarak uçurmak için hazırlanmıştır.
+Bu repo, Ubuntu 24.04 üzerinde ROS 2 Jazzy ve Gazebo içinde ArduPilot SITL çalıştırırken, fiziksel FS-i6X kumandayı kullanarak dronu manuel olarak uçurmak için hazırlanmıştır.
 
-Bu proje, büyük bir takım projesi ya da otonom uçuş tasarımı değil; doğrudan "simülasyon ortamında gerçek kumanda ile uçuş testi yapmak" amacıyla geliştirilmiştir.
+Bu proje, yalnızca “kumanda ile uçuş testi” odaklıdır. Bu repoda amaç, otonom görev, takım çalışması, geniş sistem mimarisi ya da diğer geliştirme alanları değildir. Tek hedef: simülasyon ortamında gerçek RC kumanda ile manuel uçuş denemesi yapmaktır.
 
-## Proje ne işe yarar?
+## Bu repo ne yapar?
 
-- Gazebo içinde drone simülasyonu başlatır.
+- Gazebo içindeki drone simülasyonunu başlatır.
 - ArduPilot SITL ile uçuş yazılımını çalıştırır.
 - FS-i6X kumandayı bilgisayara bağlar.
-- QGroundControl ile radio kalibrasyonunu yapar.
+- QGroundControl ile radio kalibrasyonu yapar.
 - Manuel uçuş testi için gerekli ortamı hazırlar.
 
-Yani bu proje, gerçek uçuş öncesi güvenli ve tekrar edilebilir test ortamı sağlar.
+Bu repo, güvenli ve tekrar edilebilir bir manuel uçuş test ortamı sunar. Başka amaçlar için tasarlanmamıştır.
 
 ---
 
@@ -410,67 +410,6 @@ ros2 launch sancak_simulation simulation.launch.py
 
 ---
 
-## GitHub'a yükleme adımları
-
-Bu projeyi kendi GitHub hesabına yüklemek için aşağıdaki komutları terminalde sırayla çalıştır.
-
-> Not: Bu repo şu anda başka bir uzak repoya işaret ediyor. Önce `origin` adını değiştirip sonra kendi hesabına bağlanman gerekir.
-
-### 1) Mevcut durumu kontrol et
-
-```bash
-cd ~/sancak_ws
-git status
-git remote -v
-```
-
-### 2) Mevcut origin'i sakla
-
-```bash
-cd ~/sancak_ws
-git remote rename origin upstream
-```
-
-### 3) Kendi GitHub repo URL'sini ekle
-
-```bash
-cd ~/sancak_ws
-git remote add origin https://github.com/ZehraKurttekin/FSi6x-Kumanda-Ucus-Simulasyonu.git
-```
-
-### 4) Ana dalı oluştur ve geç
-
-```bash
-cd ~/sancak_ws
-git branch -M main
-```
-
-### 5) Dosyaları commit et
-
-```bash
-cd ~/sancak_ws
-git add .
-git commit -m "Initial setup for FS-i6X flight simulation project"
-```
-
-### 6) GitHub'a yükle
-
-```bash
-cd ~/sancak_ws
-git push -u origin main
-```
-
-### 7) Sonraki güncellemeler
-
-```bash
-cd ~/sancak_ws
-git add .
-git commit -m "Update README and setup instructions"
-git push
-```
-
----
-
 ## Contributors
 
 - Zehra Kurttekin
@@ -481,7 +420,7 @@ git push
 
 Bu repo, profesyonel bir üretim sistemi değil; Ubuntu 24.04 üzerinde FS-i6X kumanda ile Gazebo simülasyonu için hızlı bir manuel uçuş test ortamıdır.
 
-Amacın daha büyük bir uçuş sistemine geçmek olması halinde, bu repo temel doğrulama ve test platformu olarak kullanılabilir.
+Amacı, daha büyük bir uçuş sistemine geçmek değil; yalnızca kumanda ile uçuş testinin yapılabilmesidir.
 
 ---
 
