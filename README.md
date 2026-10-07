@@ -227,12 +227,6 @@ ros2 launch ardupilot_gz_bringup iris_runway.launch.py rviz:=false use_dds_agent
 - Kumanda açık mı?
 - QGroundControl radio ekranında kanal değerleri çıkıyor mu?
 
-### ArduPilot bağlantısı yok
-
-- Gazebo çalışıyor mu?
-- Launch komutu doğru çalışıyor mu?
-- QGroundControl içinde drone bağlantısı kuruldu mu?
-
 ---
 
 ## Not
