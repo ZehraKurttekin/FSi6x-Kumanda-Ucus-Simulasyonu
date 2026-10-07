@@ -15,7 +15,7 @@ def generate_launch_description():
         'gz_sim.launch.py'
     )
 
-    world_file = '/home/tunahan/sancak_ws/worlds/sancak_world.sdf'
+    world_file = os.path.expanduser('~/sancak_ws/worlds/sancak_world.sdf')
 
     return LaunchDescription([
 

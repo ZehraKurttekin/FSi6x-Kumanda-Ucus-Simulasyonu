@@ -1,36 +1,40 @@
-# FS-i6X Kumanda Uçuş Simülasyonu
+# FSi6X Kumanda Uçuş Simülasyonu
 
-Bu repo, Gazebo ortamında ArduPilot SITL çalıştırılırken FS-i6X tipi fiziksel kumanda ile dronu manuel olarak uçurmak için hazırlanmıştır.
+Bu repo, Ubuntu 24.04 üzerinde ROS 2 Jazzy ve Gazebo ortamında ArduPilot SITL çalıştırırken, fiziksel FS-i6X kumandayı kullanarak dronu manuel olarak uçurmak için hazırlanmıştır.
 
-Amaç:
+Bu proje, büyük bir takım projesi ya da otonom uçuş tasarımı değil; doğrudan "simülasyon ortamında gerçek kumanda ile uçuş testi yapmak" amacıyla geliştirilmiştir.
 
-- Gazebo üzerinde drone simülasyonu başlatmak
-- FS-i6X kumandayı bilgisayara bağlamak
-- QGroundControl ile radio kalibrasyonu yapmak
-- Manuel uçuş testi gerçekleştirmek
+## Proje ne işe yarar?
 
-Bu proje, yarışma, takım, otonom sürü görevi ya da geniş kapsamlı sistem mimarisi anlatımı ile değil; doğrudan fiziksel kumanda ile uçuş simülasyonu odaklıdır.
+- Gazebo içinde drone simülasyonu başlatır.
+- ArduPilot SITL ile uçuş yazılımını çalıştırır.
+- FS-i6X kumandayı bilgisayara bağlar.
+- QGroundControl ile radio kalibrasyonunu yapar.
+- Manuel uçuş testi için gerekli ortamı hazırlar.
+
+Yani bu proje, gerçek uçuş öncesi güvenli ve tekrar edilebilir test ortamı sağlar.
 
 ---
 
-## Gerekenler
+## Gerekli yazılım ve donanım
 
 ### Yazılım
 
 - Ubuntu 24.04
-- ROS2 Jazzy
+- ROS 2 Jazzy
 - Gazebo Harmonic
 - ArduPilot SITL
 - QGroundControl
-- colcon
 - Git
+- colcon
 - Python 3
 
 ### Donanım
 
 - FS-i6X veya benzeri RC kumanda
-- bilgisayar
-- gerekli USB bağlantı / joystick adaptörü
+- Bilgisayar
+- USB bağlantı / gerekli adaptör
+- Kablo ve güç kaynağı
 
 ---
 
@@ -41,30 +45,42 @@ sancak_ws/
 ├── README.md
 ├── worlds/
 ├── models/
+├── terrain/
 ├── src/
 │   ├── sancak_bringup/
 │   ├── sancak_simulation/
 │   ├── sancak_control/
 │   ├── sancak_interfaces/
-│   └── sancak_mission/
+│   ├── sancak_mission/
+│   ├── ardupilot_gazebo/
+│   ├── ardupilot_gz/
+│   └── SITL_Models/
 ├── external/
 ├── build/
 ├── install/
 ├── log/
-└── models_backup/
+├── models_backup/
+├── mav.parm
+├── set_sitl_params.py
+├── worlds/
+└── README.md
 ```
 
 ---
 
 ## Kurulum adımları
 
-### 1) Ubuntu 24.04 kurulumu
+Aşağıdaki adımlar, Ubuntu kurulu ve sadece bir arkadaşının simülasyonda FS-i6X ile uçuş yapmasını amaçlayan kullanıcılar için yazılmıştır.
+
+### 1) Ubuntu sürümünü kontrol et
 
 ```bash
 lsb_release -a
 ```
 
-### 2) ROS2 Jazzy kurulumu
+Ubuntu 24.04 kullanman önerilir.
+
+### 2) ROS 2 Jazzy kur
 
 ```bash
 sudo apt update
@@ -77,51 +93,72 @@ sudo apt update
 sudo apt install -y ros-jazzy-desktop
 ```
 
+ROS 2 ortamını terminalde her açışta kullanmak için:
+
 ```bash
 echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-Kontrol:
+Kontrol et:
 
 ```bash
 ros2 --version
 ```
 
-### 3) Gazebo Harmonic kurulumu
+### 3) Gazebo Harmonic kur
 
 ```bash
 sudo apt install -y ros-jazzy-ros-gz
 ```
 
-Kontrol:
+Kontrol et:
 
 ```bash
 gz sim --versions
 ```
 
-### 4) colcon kurulumu
+### 4) colcon ve gerekli araçları kur
 
 ```bash
-sudo apt install -y python3-colcon-common-extensions python3-rosdep build-essential
+sudo apt install -y python3-colcon-common-extensions python3-rosdep build-essential git
 ```
 
-### 5) Projeyi klonlama
+### 5) Projeyi klonla
 
 ```bash
-git clone https://github.com/R-Tunahan-Kayahan/20044342.git ~/sancak_ws
+git clone https://github.com/ZehraKurttekin/FSi6x-Kumanda-Ucus-Simulasyonu.git ~/sancak_ws
 cd ~/sancak_ws
 ```
 
-### 6) Derleme
+Eğer daha önce farklı bir remote varsa ve sen kendi GitHub hesabına yüklemek istiyorsan, aşağıdaki adım gerekli olabilir:
+
+```bash
+git remote -v
+```
+
+Eğer `origin` başkasına işaret ediyorsa:
+
+```bash
+git remote rename origin upstream
+```
+
+Sonra kendi GitHub repoya ekle:
+
+```bash
+git remote add origin https://github.com/ZehraKurttekin/FSi6x-Kumanda-Ucus-Simulasyonu.git
+```
+
+### 6) Derle
 
 ```bash
 source /opt/ros/jazzy/setup.bash
-colcon build
+cd ~/sancak_ws
+colcon build --symlink-install
 source install/setup.bash
 ```
 
-Eğer eksik bağımlılık varsa:
+Eksik bağımlılık varsa:
 
 ```bash
 rosdep install --from-paths src --ignore-src -r -y
@@ -131,12 +168,110 @@ rosdep install --from-paths src --ignore-src -r -y
 
 ## QGroundControl kurulumu
 
+QGroundControl, RC kumanda kalibrasyonu ve drone bağlantısı için kullanılır.
+
 ```bash
 cd ~/Downloads
 wget https://github.com/mavlink/qgroundcontrol/releases/download/v4.4.4/QGroundControl.AppImage
 chmod +x QGroundControl.AppImage
 ./QGroundControl.AppImage
 ```
+
+Uygulama açıldıktan sonra:
+
+- QGroundControl'ı başlat
+- "Vehicle Setup" bölümüne gir
+- "Radio" sekmesine bak
+- FS-i6X kumandayı PC'ye bağla
+- RC'nin tanındığını doğrula
+
+---
+
+## FS-i6X kumandayı bağlama ve QGroundControl kalibrasyonu
+
+Bu kısım, simülasyonda uçuş için en kritik adımdır.
+
+### Adım 1: Kumandayı bağla
+
+- FS-i6X kumandayı bilgisayara USB ile bağla.
+- Kumandanın açık olduğundan emin ol.
+- QGroundControl'ı aç.
+- Sol menüde "Vehicle Setup" > "Radio" bölümüne gir.
+
+### Adım 2: Kanal bilgilerini kontrol et
+
+QGroundControl ekranında sensör ve kanal değerleri görünmelidir.
+
+Kontrol edilecek alanlar:
+
+- Roll
+- Pitch
+- Yaw
+- Throttle
+- Switch / mode tuşları
+- Diğer kanallar
+
+Eğer kanal görünmüyorsa:
+
+- USB kablosunu kontrol et
+- Kumanda açık mı kontrol et
+- Sistem "joystick / radio" tanıması yapıyor mu kontrol et
+- Farklı USB portu deneyin
+
+### Adım 3: Radio kalibrasyonu başlat
+
+- "Radio" ekranında "Calibrate" veya benzeri butona tıkla.
+- Kumandanın tüm çubuklarını merkeze al.
+- Sonra her eksen için tam yönlere doğru hareket et.
+
+Örnek olarak:
+
+- Roll: tam sola ve tam sağa
+- Pitch: tam ileri ve tam geriye
+- Throttle: tam aşağı ve tam yukarı
+- Yaw: tam sola ve tam sağa
+
+### Adım 4: Girdi değerlerini doğrula
+
+Kalibrasyon sırasında her kanal için şu değerler beklenir:
+
+- Minimum değer yaklaşık 1000
+- Merkez değeri yaklaşık 1500
+- Maksimum değer yaklaşık 2000
+
+Bu değerler aralığı, uçuş kontrolü için gereklidir.
+
+### Adım 5: Merkezleme ve boşluk kontrolü
+
+Kumanda çubuklarını merkez konuma getirdiğinde:
+
+- Roll = yaklaşık 1500
+- Pitch = yaklaşık 1500
+- Yaw = yaklaşık 1500
+- Throttle = yaklaşık 1000 veya 1500 arası
+
+Ayarları kaydetmeden önce kontrol et:
+
+- Çubuklar dümdüz mi?
+- Çubuklar merkezdeyken drone komut vermiyor mu?
+- Tam hareketlerde değerler doğru aralığa ulaşıyor mu?
+
+### Adım 6: Kalibrasyonu kaydet
+
+- "Save" ya da "Apply" butonuna bas.
+- Radio kalibrasyonunu tamamla.
+- QGroundControl ekranında değerlerin sabitlenmesini bekle.
+
+### Adım 7: Manuel uçuş için hazırlık
+
+Kalibrasyon sonrası:
+
+- ArduPilot bağlantısını kontrol et
+- Gazebo simülasyonunu başlat
+- QGroundControl içinde dronun bağlantısını doğrula
+- Kumanda ile arm et
+- Stabilize veya Manual moduna geç
+- Kalkış ve uçuş testini yap
 
 ---
 
@@ -156,26 +291,17 @@ Bu komut, Gazebo içinde Iris modelini başlatır. ArduPilot SITL ve Gazebo birl
 
 ---
 
-## FS-i6X kumandayı bağlama ve kalibrasyon
-
-1. FS-i6X kumandayı bilgisayara bağlayın.
-2. QGroundControl’ı açın.
-3. Vehicle Setup > Radio bölümüne girin.
-4. Tüm kanalları kalibre edin.
-5. Roll, pitch, yaw ve throttle için doğru çalıştığını doğrulayın.
-
----
-
 ## Manuel uçuş adımları
 
-1. Gazebo simülasyonunu başlatın.
-2. QGroundControl’ı açın.
-3. Drone bağlantısını kontrol edin.
-4. RC kumandayla arm edin.
-5. Stabilize veya Manual moda geçin.
-6. Throttle ile kalkış yapın.
-7. Uçuş sırasında roll/pitch/yaw kontrolünü manuel olarak kullanın.
-8. İniş yapın ve disarm edin.
+1. Gazebo simülasyonunu başlat.
+2. QGroundControl'ı aç.
+3. Drone bağlantısını kontrol et.
+4. RC kumandayla arm et.
+5. Stabilize veya Manual moduna geç.
+6. Throttle ile kalkış yap.
+7. Roll, pitch ve yaw ile kontrolü elde tut.
+8. Yavaşça iniş yap.
+9. Disarm et.
 
 ---
 
@@ -190,43 +316,81 @@ ros2 launch ardupilot_gz_bringup iris_runway.launch.py rviz:=false use_dds_agent
 
 ---
 
+## Tek tık çalıştırma notları
+
+Ubuntu kurulu olan bir arkadaşın projeyi doğrudan çalıştırması için en kolay yöntem, aşağıdaki dosyayı kullanmaktır:
+
+```bash
+cd ~/sancak_ws
+chmod +x quickstart.sh
+./quickstart.sh
+```
+
+Bu betik şu işleri otomatik yapar:
+
+- ROS 2 Jazzy ortamını yükler
+- proje ortamını etkinleştirir
+- gerekli `PATH` ayarını ekler
+- Gazebo + ArduPilot simülasyonunu başlatır
+
+Önce projeyi derlemek gerekir:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+cd ~/sancak_ws
+colcon build --symlink-install
+source install/setup.bash
+```
+
+Derleme tamamlandıktan sonra tek tık çalıştırma komutunu kullanabilirsiniz:
+
+```bash
+cd ~/sancak_ws
+./quickstart.sh
+```
+
+> Kumanda ve QGroundControl hazırsa, bu komutla Gazebo simülasyonu doğrudan açılacaktır.
+
+---
+
 ## Sorun giderme
 
 ### Gazebo çalışmıyor
 
-- ROS2 ortamı yüklü mü?
+- ROS 2 ortamı yüklü mü?
 - Gazebo Harmonic kurulu mu?
 - `source install/setup.bash` yapıldı mı?
+- `ros2 launch ...` komutu doğru mı?
 
-### RC kumanda çalışmıyor
+### RC kumanda tanınmıyor
 
-- USB bağlantı doğru mu?
-- QGroundControl radio kalibrasyonu yapıldı mı?
-- Kanallar doğru tanınıyor mu?
+- USB kablo doğru bağlandı mı?
+- Kumanda açık mı?
+- QGroundControl radio ekranında kanal değerleri çıkıyor mu?
+- Farklı USB portu deneyin.
 
 ### ArduPilot bağlantısı yok
 
 - Gazebo başlatıldı mı?
-- launch komutu doğru çalışıyor mu?
-- QGroundControl’ta drone bağlantısı kuruldu mu?
+- Launch komutu çalışıyor mu?
+- QGroundControl içinde drone bağlantısı kuruldu mu?
+- RC kalibrasyonu tamamlandı mı?
+
+### Simülasyon çok yavaş veya açık kalmıyor
+
+- Sistemde yeterli kaynak var mı?
+- Gazebo kaynaklarını kontrol et
+- Gereksiz terminal veya uygulama kapat
 
 ---
 
-## Son not
-
-Bu repo, geniş bir takım projesi ya da yarışma dosyaları değildir. Bu çalışma doğrudan FS-i6X ile Gazebo’da manuel uçuş simülasyonu için hazırlanmıştır.
-
-Gelecekte daha büyük bir sistem kurulacaksa, bu repo temel doğrulama ve kontrol ortamı olarak kullanılabilir.
-
----
-
-## Dünya Çalıştırma
+## Dünya çalıştırma
 
 ```bash
 gz sim ~/sancak_ws/worlds/sancak_world.sdf
 ```
 
-veya
+veya:
 
 ```bash
 ros2 launch sancak_simulation simulation.launch.py
@@ -234,17 +398,90 @@ ros2 launch sancak_simulation simulation.launch.py
 
 ---
 
-# ROS2 Paketleri
+## ROS 2 paketleri
 
-## sancak_simulation
+### sancak_simulation
 
-Gazebo dünya yönetimi.
-
-Launch:
+Gazebo dünya yönetimi ve simülasyon ortamı başlatma için kullanılır.
 
 ```bash
 ros2 launch sancak_simulation simulation.launch.py
 ```
+
+---
+
+## GitHub'a yükleme adımları
+
+Bu projeyi kendi GitHub hesabına yüklemek için aşağıdaki komutları terminalde sırayla çalıştır.
+
+> Not: Bu repo şu anda başka bir uzak repoya işaret ediyor. Önce `origin` adını değiştirip sonra kendi hesabına bağlanman gerekir.
+
+### 1) Mevcut durumu kontrol et
+
+```bash
+cd ~/sancak_ws
+git status
+git remote -v
+```
+
+### 2) Mevcut origin'i sakla
+
+```bash
+cd ~/sancak_ws
+git remote rename origin upstream
+```
+
+### 3) Kendi GitHub repo URL'sini ekle
+
+```bash
+cd ~/sancak_ws
+git remote add origin https://github.com/ZehraKurttekin/FSi6x-Kumanda-Ucus-Simulasyonu.git
+```
+
+### 4) Ana dalı oluştur ve geç
+
+```bash
+cd ~/sancak_ws
+git branch -M main
+```
+
+### 5) Dosyaları commit et
+
+```bash
+cd ~/sancak_ws
+git add .
+git commit -m "Initial setup for FS-i6X flight simulation project"
+```
+
+### 6) GitHub'a yükle
+
+```bash
+cd ~/sancak_ws
+git push -u origin main
+```
+
+### 7) Sonraki güncellemeler
+
+```bash
+cd ~/sancak_ws
+git add .
+git commit -m "Update README and setup instructions"
+git push
+```
+
+---
+
+## Contributors
+
+- Zehra Kurttekin
+
+---
+
+## Not
+
+Bu repo, profesyonel bir üretim sistemi değil; Ubuntu 24.04 üzerinde FS-i6X kumanda ile Gazebo simülasyonu için hızlı bir manuel uçuş test ortamıdır.
+
+Amacın daha büyük bir uçuş sistemine geçmek olması halinde, bu repo temel doğrulama ve test platformu olarak kullanılabilir.
 
 ---
 
