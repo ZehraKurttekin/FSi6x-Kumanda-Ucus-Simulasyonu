@@ -213,22 +213,6 @@ ros2 launch ardupilot_gz_bringup iris_runway.launch.py rviz:=false use_dds_agent
 
 ---
 
-## 8) Sorun giderme
-
-### Gazebo başlatılmıyor
-
-- ROS 2 yüklü mü?
-- Gazebo Harmonic kurulmuş mu?
-- `source install/setup.bash` yapıldı mı?
-
-### RC kumanda tanınmıyor
-
-- USB kablo doğru mu?
-- Kumanda açık mı?
-- QGroundControl radio ekranında kanal değerleri çıkıyor mu?
-
----
-
 ## Not
 
 Bu repo, Ubuntu üzerinde FS-i6X kumanda ile Gazebo simülasyonunda manuel uçuş testi için hazırlanmıştır. Başka amaç için değildir.
